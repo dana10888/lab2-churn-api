@@ -1,21 +1,3 @@
-# AI381 Lab 1 · The Manual Pipeline Race (starter kit)
-
-Dr. Tariq Al-Omari · AI381 Machine Learning Operations · JUST · Fall 2026/27
-
-Lab 1 is short, a little chaotic, and on purpose. You will deliver a model by hand, change it, and
-log what that costs you. There is no wrong result: an honest pain log is a great pain log.
-
-## What is in this kit
-
-| File | What it is |
-|---|---|
-| `churn_v1.csv` | Customer churn data, version 1 (1,200 customers) |
-| `churn_v2.csv` | Version 2 of the same data. Something changed. You will find out in Twist 1 |
-| `lab1_baseline.ipynb` | The notebook that trains a logistic regression and saves `model.joblib` |
-| `app/main.py` | A small FastAPI service that loads `model.joblib` and serves `/predict` |
-| `sample_request.json` | One customer to send to the API |
-| `requirements.txt` | The packages the notebook author remembered to write down |
-| `pain_log_template.txt` | Copy it to `pain_log.txt` an
 # AI381 Lab 2 — Docker and CI
 
 ![CI Pipeline](https://github.com/dana10888/lab2-churn-api/actions/workflows/ci.yml/badge.svg)
