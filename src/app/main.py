@@ -1,5 +1,6 @@
 
 from pathlib import Path
+import json
 from typing import Literal
 
 import joblib
@@ -9,7 +10,8 @@ from pydantic import BaseModel, Field
 
 # Find the project root
 ROOT = Path(__file__).resolve().parents[2]
-MODEL_PATH = ROOT / "model.joblib"
+MODEL_DIR = Path(__import__("os").getenv("MODEL_DIR", str(ROOT)))
+MODEL_PATH = MODEL_DIR / "model.joblib"
 
 # Load trained model
 model = joblib.load(MODEL_PATH)
@@ -29,12 +31,24 @@ class CustomerInput(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    metadata_path = MODEL_DIR / "metadata.json"
+
+    if metadata_path.exists():
+        metadata = json.loads(metadata_path.read_text())
+        version = metadata.get("model_version", "unknown")
+    else:
+        version = "local"
+
+    return {
+        "status": "ok",
+        "model_version": version
+    }
 
 
 @app.post("/predict")
 def predict(customer: CustomerInput):
     data = pd.DataFrame([customer.model_dump()])
+    data = data.rename(columns={"monthly_fee": "monthly_charges"})
 
     probability = float(model.predict_proba(data)[0, 1])
 
