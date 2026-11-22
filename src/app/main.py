@@ -47,8 +47,11 @@ def health():
 
 @app.post("/predict")
 def predict(customer: CustomerInput):
-    data = pd.DataFrame([customer.model_dump()])
-    data = data.rename(columns={"monthly_fee": "monthly_charges"})
+    data = pd.DataFrame([customer.model_dump()]) 
+
+    if "monthly_charges" in model.feature_names_in_:
+        data = data.rename(columns={"monthly_fee": "monthly_charges"})
+
 
     probability = float(model.predict_proba(data)[0, 1])
 
