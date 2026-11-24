@@ -72,5 +72,16 @@ jobs:
             echo "To record a promotion, commit \`artifacts/champion.json\`, \`artifacts/metadata.json\` and \`artifacts/model.joblib\` from your own run of \`scripts/promote.py\`."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      # TODO: After the gate passes on main, build the Docker image,
-      # run the smoke test, and deploy the champion.
+      - name: Build champion image
+        if: success()
+        run: |
+          docker build --build-arg GIT_SHA="$GITHUB_SHA" -t churn-api:${GITHUB_SHA::7} .
+
+      - name: Deploy champion locally
+        if: success()
+        run: |
+          IMAGE=churn-api:${GITHUB_SHA::7} docker compose -f docker-compose.deploy.yml up -d
+
+      - name: Smoke test
+        if: success()
+        run: bash scripts/smoke_test.sh http://localhost:8000
