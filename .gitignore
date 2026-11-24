@@ -1,20 +1,27 @@
-
-# Python virtual environment
 .venv/
-venv/
-
-# Python cache
 __pycache__/
 *.pyc
 .pytest_cache/
-
-# Environment variables and secrets
+.ruff_cache/
+models/
+artifacts/*
+!artifacts/.gitkeep
+!artifacts/champion.json
+!artifacts/metadata.json
+!artifacts/model.joblib
+reports/
+mlflow.db
+mlruns/
+mlartifacts/
+infra/.terraform/
+infra/*.tfstate*
+infra/backend.hcl
+infra/terraform.tfvars
+infra/tfplan
+# Lab 2 additional rules
+venv/
 .env
 .env.*
-
-# Jupyter temporary files
 .ipynb_checkpoints/
-
-# Editor and OS files
 .vscode/
 .DS_Store
